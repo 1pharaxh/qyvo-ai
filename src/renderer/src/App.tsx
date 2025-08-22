@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import {
   PopoverCloseButton,
@@ -13,8 +13,14 @@ import {
 } from './components/ui/popover'
 import { passthroughWindow } from './ipc/window-helper'
 import { TextShimmer } from './components/motion-primitives/text-shimmer'
+import ToggleTheme from './components/ToggleTheme'
+import { syncThemeWithLocal } from './ipc/theme-helper'
 
 function App(): React.JSX.Element {
+  useEffect(() => {
+    syncThemeWithLocal()
+  }, [])
+
   const handleSubmit = (note: string) => {
     console.log('Submitted note:', note)
   }
@@ -45,6 +51,7 @@ function App(): React.JSX.Element {
             <PopoverFooter>
               <PopoverCloseButton />
               <PopoverSubmitButton />
+              <ToggleTheme />
             </PopoverFooter>
           </PopoverForm>
         </PopoverContent>
