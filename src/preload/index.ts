@@ -1,6 +1,6 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { exposeWindowContext } from '../renderer/src/ipc/window/window-context'
+import exposeContexts from '../renderer/src/ipc/context-exposer'
 
 // Custom APIs for renderer
 const api = {}
@@ -12,7 +12,7 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
-    exposeWindowContext()
+    exposeContexts()
   } catch (error) {
     console.error(error)
   }
