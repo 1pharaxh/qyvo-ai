@@ -1,9 +1,9 @@
 {
-  "name": "electron-app",
+  "name": "qyvo",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "AI powered productivity for windows.",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "Akarshan Mishra",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
