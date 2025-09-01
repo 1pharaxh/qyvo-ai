@@ -15,7 +15,7 @@
   "python-envs.pythonProjects": [
     {
       "path": "./backend",
-      "name": "Backend"
+      "name": "qyvo-ai Backend"
     }
   ]
 }
