@@ -21,6 +21,6 @@ if (process.contextIsolated) {
   window.electron = electronAPI
   // @ts-ignore (define in dts)
   window.api = api
-  // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   require('../renderer/src/ipc/window/window-context').exposeWindowContext()
 }

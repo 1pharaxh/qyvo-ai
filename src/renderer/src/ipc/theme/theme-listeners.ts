@@ -8,7 +8,7 @@ import {
   THEME_MODE_TOGGLE_CHANNEL
 } from './theme-channels'
 
-export function addThemeEventListeners() {
+export function addThemeEventListeners(): void {
   ipcMain.handle(THEME_MODE_CURRENT_CHANNEL, () => nativeTheme.themeSource)
   ipcMain.handle(THEME_MODE_TOGGLE_CHANNEL, () => {
     if (nativeTheme.shouldUseDarkColors) {

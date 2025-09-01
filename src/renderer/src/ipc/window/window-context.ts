@@ -6,7 +6,7 @@ import {
   WIN_ALLOW_MOUSE_PASS_THROUGH
 } from './window-channels'
 
-export function exposeWindowContext() {
+export function exposeWindowContext(): void {
   contextBridge.exposeInMainWorld('electronWindow', {
     minimize: () => ipcRenderer.invoke(WIN_MINIMIZE_CHANNEL),
     maximize: () => ipcRenderer.invoke(WIN_MAXIMIZE_CHANNEL),

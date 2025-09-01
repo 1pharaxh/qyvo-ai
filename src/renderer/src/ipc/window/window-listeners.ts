@@ -6,7 +6,7 @@ import {
   WIN_MINIMIZE_CHANNEL
 } from './window-channels'
 
-export function addWindowEventListeners(mainWindow: BrowserWindow) {
+export function addWindowEventListeners(mainWindow: BrowserWindow): void {
   ipcMain.handle(WIN_MINIMIZE_CHANNEL, () => {
     mainWindow.minimize()
   })

@@ -6,7 +6,7 @@ import {
   THEME_MODE_TOGGLE_CHANNEL
 } from './theme-channels'
 
-export function exposeThemeContext() {
+export function exposeThemeContext(): void {
   const { contextBridge, ipcRenderer } = window.require('electron')
   contextBridge.exposeInMainWorld('themeMode', {
     current: () => ipcRenderer.invoke(THEME_MODE_CURRENT_CHANNEL),

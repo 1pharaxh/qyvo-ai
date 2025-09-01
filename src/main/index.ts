@@ -29,7 +29,8 @@ function createWindow(): void {
 
   // mainWindow.webContents.openDevTools()
 
-  mainWindow.on('minimize' as any, (event) => {
+  //@ts-ignore Cannot find the type for the event
+  mainWindow.on('minimize', (event) => {
     event.preventDefault()
     mainWindow.restore()
   })

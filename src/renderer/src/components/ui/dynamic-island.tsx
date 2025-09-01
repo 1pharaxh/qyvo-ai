@@ -1,4 +1,5 @@
 import React, {
+  JSX,
   ReactNode,
   createContext,
   useCallback,
@@ -12,10 +13,13 @@ import {
   AnimatePresence,
   AnimationGeneratorType,
   motion,
-  useDragControls,
+  MotionValue,
   useWillChange
 } from 'motion/react'
-import { passthroughWindow } from '@renderer/ipc/window-helper'
+
+interface WillChange extends MotionValue<string> {
+  add(name: string): void
+}
 
 const stiffness = 400
 const damping = 30
@@ -23,7 +27,7 @@ const MIN_WIDTH = 691
 const MAX_HEIGHT_MOBILE_ULTRA = 400
 const MAX_HEIGHT_MOBILE_MASSIVE = 700
 
-const min = (a: number, b: number) => (a < b ? a : b)
+const min = (a: number, b: number): number => (a < b ? a : b)
 
 export type SizePresets =
   | 'reset'
@@ -218,7 +222,7 @@ const DynamicIslandProvider: React.FC<DynamicIslandProviderProps> = ({
   const [state, dispatch] = useReducer(blobReducer, initialState)
 
   useEffect(() => {
-    const processQueue = async () => {
+    const processQueue = async (): Promise<void> => {
       for (const step of state.animationQueue) {
         await new Promise((resolve) => setTimeout(resolve, step.delay))
         dispatch({ type: 'SET_SIZE', newSize: step.size })
@@ -258,7 +262,7 @@ const DynamicIslandProvider: React.FC<DynamicIslandProviderProps> = ({
   return <BlobContext.Provider value={contextValue}>{children}</BlobContext.Provider>
 }
 
-const useDynamicIslandSize = () => {
+const useDynamicIslandSize = (): BlobContextType => {
   const context = useContext(BlobContext)
   if (!context) {
     throw new Error('useDynamicIslandSize must be used within a DynamicIslandProvider')
@@ -266,7 +270,7 @@ const useDynamicIslandSize = () => {
   return context
 }
 
-const useScheduledAnimations = (animations: Array<{ size: SizePresets; delay: number }>) => {
+const useScheduledAnimations = (animations: Array<{ size: SizePresets; delay: number }>): void => {
   const { scheduleAnimation } = useDynamicIslandSize()
   const animationsRef = useRef(animations)
 
@@ -275,7 +279,7 @@ const useScheduledAnimations = (animations: Array<{ size: SizePresets; delay: nu
   }, [scheduleAnimation])
 }
 
-const DynamicIslandContainer = ({ children }: { children: ReactNode }) => {
+const DynamicIslandContainer = ({ children }: { children: ReactNode }): JSX.Element => {
   return (
     <div className="z-10 flex h-full w-full items-end justify-center bg-transparent">
       {children}
@@ -283,12 +287,19 @@ const DynamicIslandContainer = ({ children }: { children: ReactNode }) => {
   )
 }
 
-const DynamicIsland = ({ children, id, ...props }: { children: ReactNode; id: string }) => {
+const DynamicIsland = ({
+  children,
+  id,
+  ...props
+}: {
+  children: ReactNode
+  id: string
+}): JSX.Element => {
   const willChange = useWillChange()
   const [screenSize, setScreenSize] = useState('desktop')
 
   useEffect(() => {
-    const handleResize = () => {
+    const handleResize = (): void => {
       if (window.innerWidth <= 640) {
         setScreenSize('mobile')
       } else if (window.innerWidth <= 1024) {
@@ -341,11 +352,9 @@ const DynamicIslandContent = ({
 }: {
   children: React.ReactNode
   id: string
-  willChange: any
+  willChange: WillChange
   screenSize: string
-
-  [key: string]: any
-}) => {
+}): JSX.Element => {
   const { state, presets } = useDynamicIslandSize()
   const currentSize = presets[state.size]
 
@@ -381,7 +390,7 @@ type DynamicContainerProps = {
   children?: React.ReactNode
 } & React.ComponentProps<typeof motion.div>
 
-const DynamicContainer = ({ className, children, ...rest }: DynamicContainerProps) => {
+const DynamicContainer = ({ className, children, ...rest }: DynamicContainerProps): JSX.Element => {
   const willChange = useWillChange()
   const { state } = useDynamicIslandSize()
   const { size, previousSize } = state
@@ -425,7 +434,7 @@ type DynamicChildrenProps = {
   children?: React.ReactNode
 }
 
-const DynamicDiv = ({ className, children }: DynamicChildrenProps) => {
+const DynamicDiv = ({ className, children }: DynamicChildrenProps): JSX.Element => {
   const { state } = useDynamicIslandSize()
   const { size, previousSize } = state
   const willChange = useWillChange()
@@ -459,7 +468,7 @@ type MotionProps = {
   children: React.ReactNode
 }
 
-const DynamicTitle = ({ className, children }: MotionProps) => {
+const DynamicTitle = ({ className, children }: MotionProps): JSX.Element => {
   const { state } = useDynamicIslandSize()
   const { size, previousSize } = state
   const willChange = useWillChange()
@@ -480,7 +489,7 @@ const DynamicTitle = ({ className, children }: MotionProps) => {
   )
 }
 
-const DynamicDescription = ({ className, children }: MotionProps) => {
+const DynamicDescription = ({ className, children }: MotionProps): JSX.Element => {
   const { state } = useDynamicIslandSize()
   const { size, previousSize } = state
   const willChange = useWillChange()
@@ -506,13 +515,18 @@ export {
   DynamicTitle,
   DynamicDescription,
   DynamicIsland,
+  // eslint-disable-next-line react-refresh/only-export-components
   SIZE_PRESETS,
+  // eslint-disable-next-line react-refresh/only-export-components
   stiffness,
   DynamicDiv,
+  // eslint-disable-next-line react-refresh/only-export-components
   damping,
   DynamicIslandSizePresets,
   BlobContext,
+  // eslint-disable-next-line react-refresh/only-export-components
   useDynamicIslandSize,
+  // eslint-disable-next-line react-refresh/only-export-components
   useScheduledAnimations,
   DynamicIslandProvider
 }

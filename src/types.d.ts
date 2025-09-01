@@ -20,7 +20,16 @@ interface ElectronWindow {
   passthrough: (e: boolean) => Promise<boolean>
 }
 
+export interface ThemeModeAPI {
+  current: () => Promise<'dark' | 'light' | 'system'>
+  dark: () => Promise<void>
+  light: () => Promise<void>
+  system: () => Promise<boolean>
+  toggle: () => Promise<boolean>
+}
+
 declare interface Window {
   themeMode: ThemeModeContext
   electronWindow: ElectronWindow
+  themeMode: ThemeModeAPI
 }

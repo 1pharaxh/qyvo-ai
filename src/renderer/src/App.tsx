@@ -1,8 +1,8 @@
 'use client'
 
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, JSX, useContext, useEffect, useRef } from 'react'
 import { ArrowUpLeftSquareIcon, Loader, Mail, MessageCircle, User, Waves } from 'lucide-react'
-import { motion, useDragControls, useReducedMotion } from 'framer-motion'
+import { HTMLMotionProps, motion, useDragControls, useReducedMotion } from 'framer-motion'
 import { Button } from '../src/components/ui/button'
 import {
   DynamicContainer,
@@ -17,7 +17,7 @@ import {
 import { syncThemeWithLocal } from './ipc/theme-helper'
 import { passthroughWindow } from './ipc/window-helper'
 
-const DynamicAction = () => {
+const DynamicAction = (): JSX.Element => {
   const { state: blobState, setSize } = useDynamicIslandSize()
 
   const blobStates: SizePresets[] = [
@@ -29,17 +29,13 @@ const DynamicAction = () => {
     'minimalTrailing'
   ]
 
-  const handleStateChange = (state: SizePresets) => {
-    setSize(state)
-  }
-
-  const handleIslandClick = () => {
+  const handleIslandClick = (): void => {
     const currentIndex = blobStates.indexOf(blobState.size as SizePresets)
     const nextIndex = (currentIndex + 1) % blobStates.length
     setSize(blobStates[nextIndex])
   }
 
-  const renderCompactState = () => (
+  const renderCompactState = (): JSX.Element => (
     <DynamicContainer className="flex items-center justify-center h-full w-full">
       <div className="relative w-full flex items-center">
         <DynamicDescription className="absolute left-4  my-auto text-lg font-medium tracking-tighter text-white ">
@@ -53,7 +49,7 @@ const DynamicAction = () => {
     </DynamicContainer>
   )
 
-  const renderLargeState = () => (
+  const renderLargeState = (): JSX.Element => (
     <DynamicContainer className="flex items-center justify-center h-full w-full">
       <div className="relative  flex w-full items-center justify-between gap-6 px-4">
         <Loader className="animate-spin h-12 w-12  text-yellow-300" />
@@ -65,7 +61,7 @@ const DynamicAction = () => {
     </DynamicContainer>
   )
 
-  const renderTallState = () => (
+  const renderTallState = (): JSX.Element => (
     <DynamicContainer className="  flex flex-col mt-6 w-full items-start  gap-1 px-8 font-semibold">
       <DynamicDescription className="bg-cyan-300 rounded-2xl tracking-tight leading-5  p-2">
         The Cult of Pythagoras
@@ -81,7 +77,7 @@ const DynamicAction = () => {
     </DynamicContainer>
   )
 
-  const renderLongState = () => (
+  const renderLongState = (): JSX.Element => (
     <DynamicContainer className="flex items-center justify-center h-full w-full">
       <DynamicDiv className="relative  flex w-full items-center justify-between gap-6 px-4">
         <div>
@@ -95,7 +91,7 @@ const DynamicAction = () => {
     </DynamicContainer>
   )
 
-  const renderMediumState = () => (
+  const renderMediumState = (): JSX.Element => (
     <DynamicContainer className="flex flex-col justify-between px-2 pt-4 text-left text-white h-full">
       <DynamicTitle className="text-2xl pl-3 font-black tracking-tighter">
         Reincarnation, welcome back
@@ -116,7 +112,7 @@ const DynamicAction = () => {
     </DynamicContainer>
   )
 
-  const renderOtherStates = () => (
+  const renderOtherStates = (): JSX.Element => (
     <div className="flex items-center justify-center h-full w-full">
       <div>
         <ArrowUpLeftSquareIcon className="text-white" />
@@ -125,7 +121,7 @@ const DynamicAction = () => {
     </div>
   )
 
-  const renderminimalTrailingStates = () => (
+  const renderminimalTrailingStates = (): JSX.Element => (
     <div className="flex items-center justify-center h-full w-full">
       <div>
         <ArrowUpLeftSquareIcon className="text-white" />
@@ -133,7 +129,7 @@ const DynamicAction = () => {
     </div>
   )
 
-  function renderState() {
+  function renderState(): JSX.Element {
     switch (blobState.size) {
       case 'compact':
         return renderCompactState()
@@ -168,7 +164,7 @@ const DynamicAction = () => {
   )
 }
 
-export function App() {
+export function App(): JSX.Element {
   useEffect(() => {
     syncThemeWithLocal()
   }, [])
@@ -200,7 +196,7 @@ const FadeInStaggerContext = createContext(false)
 
 const viewport = { once: true, margin: '0px 0px -200px' }
 
-export function FadeIn(props: any) {
+export function FadeIn(props: HTMLMotionProps<'div'>): JSX.Element {
   const shouldReduceMotion = useReducedMotion()
   const isInStaggerGroup = useContext(FadeInStaggerContext)
 
@@ -223,7 +219,7 @@ export function FadeIn(props: any) {
   )
 }
 
-export function FadeInStagger({ faster = false, ...props }) {
+export function FadeInStagger({ faster = false, ...props }: { faster: boolean }): JSX.Element {
   return (
     <FadeInStaggerContext.Provider value={true}>
       <motion.div
