@@ -15,7 +15,7 @@
   "python-envs.pythonProjects": [
     {
       "path": "./backend",
-      "name": "qyvo-ai Backend",
+      "name": "qyvo-ai-Backend",
       "envManager": "ms-python.python:venv",
       "packageManager": "ms-python.python:pip"
     }

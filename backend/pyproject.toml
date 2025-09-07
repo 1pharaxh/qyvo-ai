@@ -1,5 +1,5 @@
 [project]
-name = "qyvo-ai Backend"
+name = "qyvo-ai-Backend"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -8,6 +8,11 @@ dependencies = [
     "langchain>=0.3.27",
     "langchain-ollama>=0.3.7",
     "langgraph>=0.6.6",
+    "pyarmor>=9.1.8",
+    "pyautogui>=0.9.54",
     "pyinstaller>=6.15.0",
+    "pynput>=1.8.1",
     "python-dotenv>=1.1.1",
+    "pyvda>=0.5.0",
+    "pywinauto>=0.6.9",
 ]
