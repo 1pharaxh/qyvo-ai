@@ -16,7 +16,8 @@
     "build": "npm run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
     "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
+    "backend:build": "cd backend && call .\\.venv\\Scripts\\activate.bat && uv sync && pyinstaller .\\main.spec",
+    "build:win": "npm run backend:build && npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux"
   },
