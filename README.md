@@ -10,6 +10,13 @@ An Electron application with React and TypeScript
 
 ### Install
 
+Install [UV](https://docs.astral.sh/uv/getting-started/installation/) after that, 
+```bash
+$ cd backend && uv sync
+```
+
+Then install npm packages
+
 ```bash
 $ npm install
 ```
