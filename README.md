@@ -1,4 +1,4 @@
-# electron-app
+# qyvo-ai
 
 An Electron application with React and TypeScript
 
@@ -15,20 +15,18 @@ $ npm install
 ```
 
 ### Development
+Please build backend
+```bash
+$ npm run backend:build
+```
 
+Then build frontend
 ```bash
 $ npm run dev
 ```
 
-### Build
-
+### Prod Build
 ```bash
 # For windows
 $ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
 ```
