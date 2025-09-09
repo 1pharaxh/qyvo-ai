@@ -50,8 +50,12 @@ class RecordUiEvents:
             return False  # stop keyboard listener
 
     def record(self):
+        current_datetime = datetime.now()
+
         # Start mouse and keyboard listeners
-        print("recording to workflow.json")
+        timestamp_string = current_datetime.strftime("%Y-%m-%d_%H-%M-%S")
+
+        print(f"recording to workflow-{timestamp_string}.json")
 
         mouse_listener = mouse.Listener(
             on_move=self._on_move, on_click=self._on_click)
@@ -66,11 +70,8 @@ class RecordUiEvents:
         # Wait until both finish
         mouse_listener.join()
         keyboard_listener.join()
-        current_datetime = datetime.now()
 
-        timestamp_string = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-
-        with open(f'workflow-${timestamp_string}.json', "w") as f:
+        with open(f"workflow-{timestamp_string}.json", "w") as f:
             json.dump(self._recorded_events, f, indent=2)
         print("Recording saved to workflow.json")
 
