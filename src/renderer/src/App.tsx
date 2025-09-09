@@ -16,6 +16,7 @@ import {
 } from '../src/components/ui/dynamic-island'
 import { syncThemeWithLocal } from './ipc/theme-helper'
 import { passthroughWindow } from './ipc/window-helper'
+import { sendtoChatAgent } from './ipc/chat-agent-helpers'
 
 const DynamicAction = (): JSX.Element => {
   const { state: blobState, setSize } = useDynamicIslandSize()
@@ -32,6 +33,10 @@ const DynamicAction = (): JSX.Element => {
   const handleIslandClick = (): void => {
     const currentIndex = blobStates.indexOf(blobState.size as SizePresets)
     const nextIndex = (currentIndex + 1) % blobStates.length
+    sendtoChatAgent(
+      'What is 2 + 3 and 4 + 5, also add the sum of both and tell me the final answer!'
+    )
+
     setSize(blobStates[nextIndex])
   }
 

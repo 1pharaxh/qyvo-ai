@@ -22,19 +22,16 @@ interface ElectronWindow {
   passthrough: (e: boolean) => Promise<boolean>
 }
 
-export interface ThemeModeAPI {
-  current: () => Promise<'dark' | 'light' | 'system'>
-  dark: () => Promise<void>
-  light: () => Promise<void>
-  system: () => Promise<boolean>
-  toggle: () => Promise<boolean>
+interface ChatAgent {
+  send: (e: string) => Promise<void>
+  read: () => Promise<string[]>
 }
 
 declare global {
   interface Window {
     themeMode: ThemeModeContext
     electronWindow: ElectronWindow
-    themeMode: ThemeModeAPI
     electron: ElectronAPI
+    chatAgent: ChatAgent
   }
 }

@@ -13,23 +13,20 @@ interface ThemeModeContext {
   current: () => Promise<'dark' | 'light' | 'system'>
 }
 
-interface ElectronWindow {
+export interface ElectronWindow {
   minimize: () => Promise<void>
   maximize: () => Promise<void>
   close: () => Promise<void>
   passthrough: (e: boolean) => Promise<boolean>
 }
 
-export interface ThemeModeAPI {
-  current: () => Promise<'dark' | 'light' | 'system'>
-  dark: () => Promise<void>
-  light: () => Promise<void>
-  system: () => Promise<boolean>
-  toggle: () => Promise<boolean>
+export interface ChatAgent {
+  send: (e: string) => Promise<void>
+  read: () => Promise<string[]>
 }
 
 declare interface Window {
   themeMode: ThemeModeContext
   electronWindow: ElectronWindow
-  themeMode: ThemeModeAPI
+  chatAgent: ChatAgent
 }

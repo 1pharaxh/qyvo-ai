@@ -3,6 +3,11 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import registerListeners from '../renderer/src/ipc/listeners-register'
+import { ChatAgent } from '../../backend-client'
+import { CHAT_AGENT_READ_CHANNEL } from '../renderer/src/ipc/chat-agent/chat-agent-channels'
+
+const agent = new ChatAgent()
+agent.start()
 
 function createWindow(): void {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
@@ -25,7 +30,7 @@ function createWindow(): void {
       nodeIntegrationInSubFrames: false
     }
   })
-  registerListeners(mainWindow)
+  registerListeners(mainWindow, agent)
 
   // mainWindow.webContents.openDevTools()
 
@@ -59,6 +64,15 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // subscribe to stdout
+  agent.on('error', (text) => {
+    mainWindow.webContents.send(CHAT_AGENT_READ_CHANNEL, text)
+  })
+
+  agent.on('exit', (code) => {
+    mainWindow.webContents.send(CHAT_AGENT_READ_CHANNEL, `[ChatAgent exited with code ${code}]`)
+  })
 }
 
 // This method will be called when Electron has finished

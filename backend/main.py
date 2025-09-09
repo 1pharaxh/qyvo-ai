@@ -30,6 +30,8 @@ def add_numbers(a: int, b: int) -> int:
         a: first int
         b: second int
     """
+    print(json.dumps({"type": "ToolCall", "tool_name": "add_numbers"}))
+    sys.stdout.flush()
     return a + b
 
 
@@ -102,10 +104,11 @@ graph = builder.compile()
 if __name__ == '__main__':
     state = {'messages': []}
 
-    print('Type an instruction or "quit".\n')
+    print(json.dumps({"type": "loaded"}))
+    sys.stdout.flush()
 
     while True:
-        user_message = input('> ')
+        user_message = input(json.dumps({"type": "input_message"}))
 
         if user_message.lower() == 'quit':
             break
@@ -113,14 +116,11 @@ if __name__ == '__main__':
         state['messages'].append(HumanMessage(content=user_message))
 
         # Show loading message
-        print("loading...", end="\r")
+        print(json.dumps({"type": "loading..."}))
         sys.stdout.flush()
 
         # Call the graph
         state = graph.invoke(state)
-
-        # Clear the loading line
-        print(" " * 20, end="\r")
 
         # Print messages in JSON style
         for m in state['messages']:
@@ -130,4 +130,5 @@ if __name__ == '__main__':
                 "additional_kwargs": m.additional_kwargs,
                 "response_metadata": getattr(m, "response_metadata", None)
             }
-            print(json.dumps(msg_dict, indent=2))
+            print(json.dumps(msg_dict))
+            sys.stdout.flush()
