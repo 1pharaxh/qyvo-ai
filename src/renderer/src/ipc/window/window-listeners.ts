@@ -35,6 +35,7 @@ export function addWindowEventListeners(mainWindow: BrowserWindow): void {
     try {
       const win = activeWindowSync()
       if (!win) return ''
+      if (win.title.includes('Electron') || win.title.includes('qyvo')) return 'skip'
       const icon = await app.getFileIcon(win.owner.path, {
         size: 'large'
       })

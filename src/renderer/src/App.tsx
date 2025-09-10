@@ -1,7 +1,7 @@
 'use client'
 
-import { createContext, JSX, useContext, useEffect, useRef, useState } from 'react'
-import { ArrowUpLeftSquareIcon, Loader, Mail, MessageCircle, User, Waves } from 'lucide-react'
+import { createContext, JSX, useContext, useEffect, useRef } from 'react'
+import { Loader, Mail, User, Waves } from 'lucide-react'
 import { HTMLMotionProps, motion, useDragControls, useReducedMotion } from 'framer-motion'
 import { Button } from '../src/components/ui/button'
 import {
@@ -15,31 +15,9 @@ import {
   useDynamicIslandSize
 } from '../src/components/ui/dynamic-island'
 import { syncThemeWithLocal } from './ipc/theme-helper'
-import { getCurrentIcon, passthroughWindow } from './ipc/window-helper'
+import { passthroughWindow } from './ipc/window-helper'
 import { sendtoChatAgent } from './ipc/chat-agent-helpers'
-
-const FileIcon = (): JSX.Element => {
-  const [icon, setIcon] = useState<string>('')
-  useEffect(() => {
-    const timer = setInterval(async () => {
-      const res = await getCurrentIcon()
-      setIcon(res)
-    })
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [])
-  return (
-    <>
-      {icon ? (
-        <img src={icon ?? undefined} alt="Current Window Icon" className=" h-7 w-7 " />
-      ) : (
-        <MessageCircle className=" h-5 w-5 fill-cyan-400 text-cyan-400" />
-      )}
-    </>
-  )
-}
+import CurrentFileIcon from './components/ui/current-file-icon'
 
 const DynamicAction = (): JSX.Element => {
   const { state: blobState, setSize } = useDynamicIslandSize()
@@ -68,7 +46,7 @@ const DynamicAction = (): JSX.Element => {
       <DynamicContainer className="flex items-center justify-center h-full w-full">
         <div className="relative w-full flex items-center">
           <DynamicDescription className="absolute left-4  my-auto text-lg font-medium tracking-tighter text-white ">
-            <FileIcon />
+            <CurrentFileIcon />
           </DynamicDescription>
           <DynamicDescription className="absolute text-white right-4  my-auto text-lg font-bold tracking-tighter ">
             newcult.co
@@ -144,7 +122,7 @@ const DynamicAction = (): JSX.Element => {
   const renderOtherStates = (): JSX.Element => (
     <div className="flex items-center justify-center h-full w-full">
       <div>
-        <ArrowUpLeftSquareIcon className="text-white" />
+        <CurrentFileIcon />
       </div>
       <p className="text-white">cycle states</p>
     </div>
@@ -153,7 +131,7 @@ const DynamicAction = (): JSX.Element => {
   const renderminimalTrailingStates = (): JSX.Element => (
     <div className="flex items-center justify-center h-full w-full">
       <div>
-        <FileIcon />
+        <CurrentFileIcon />
       </div>
     </div>
   )
