@@ -18,6 +18,7 @@ export interface ElectronWindow {
   maximize: () => Promise<void>
   close: () => Promise<void>
   passthrough: (e: boolean) => Promise<boolean>
+  getCurrentIcon: () => Promise<string>
 }
 
 export interface ChatAgent {

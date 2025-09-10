@@ -19,3 +19,8 @@ export async function closeWindow(): Promise<void> {
 export async function passthroughWindow(allow: boolean): Promise<void> {
   await window.electronWindow.passthrough(allow)
 }
+
+export async function getCurrentIcon(): Promise<string> {
+  const res = window.electronWindow.getCurrentIcon()
+  return res
+}
