@@ -22,6 +22,8 @@ function createWindow(): void {
     frame: false,
     transparent: true,
     minimizable: false,
+    focusable: false,
+    skipTaskbar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -45,7 +47,7 @@ function createWindow(): void {
   })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.setAlwaysOnTop(true, 'floating')
+    mainWindow.setAlwaysOnTop(true, 'screen-saver')
     mainWindow.setIgnoreMouseEvents(true, {
       forward: true
     })

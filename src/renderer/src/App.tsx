@@ -32,6 +32,7 @@ const DynamicAction = (): JSX.Element => {
   ]
 
   const handleIslandClick = (): void => {
+    passthroughWindow(true)
     const currentIndex = blobStates.indexOf(blobState.size as SizePresets)
     const nextIndex = (currentIndex + 1) % blobStates.length
     sendtoChatAgent(

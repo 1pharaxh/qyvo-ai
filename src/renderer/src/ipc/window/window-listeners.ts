@@ -28,6 +28,14 @@ export function addWindowEventListeners(mainWindow: BrowserWindow): void {
     mainWindow.setIgnoreMouseEvents(allow, {
       forward: allow
     })
+    // if passthrough is true
+    if (allow) {
+      // remove focus from the window
+      mainWindow.blur()
+      // give focus back to the OS (desktop)
+      const win = BrowserWindow.getFocusedWindow()
+      if (win) win.blur()
+    }
     return allow
   })
 
